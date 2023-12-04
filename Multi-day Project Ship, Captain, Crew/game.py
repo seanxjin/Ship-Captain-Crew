@@ -20,7 +20,9 @@ class Game:
         while True:
             print(f"{self.__Player1.getName()}'s turn")
             for i in range(self.__Player1.getNumberRolls()):
-                print("Hello")
+                self.__Player1.rollDice()
+                self.__Player1.checkFoundDie()
+                self.__Player1.getFoundDie()
 
 if __name__ == "__main__":
     GAME = Game()
