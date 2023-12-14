@@ -14,13 +14,13 @@ class Player:
         :param NAME: str
         :param HAND: list -> int
         """
-        self.__NAME = input("What is your name? ") # INPUT
+        self.__NAME = input("Name: ") # INPUT
         self.__UNFOUNDDIE = [Dice(6), Dice(6), Dice(6), Dice(6), Dice(6)]
         self.__FOUNDDIE = []
         self.__GOLD = 0
         self.__ROLLS = 3
+        self.__EXTRAROLLS = False
         self.__JACKPOT = False
-        self.__PRIMESTART = False
     # MODIFIER method PROCESSING
     def rollDice(self):
         """
@@ -35,7 +35,7 @@ class Player:
         Adds score to the Player
         :return: none
         """
-        self.__SCORE = self.__SCORE + GAINS
+        self.__GOLD = self.__GOLD + GAINS
 
     def checkFoundDie(self):
         """
@@ -83,38 +83,48 @@ class Player:
         # INPUT
         print("""There is a tide in the affairs of men, Which taken at the flood, leads on to fortune....
         Welcome to the Power Up Shop! Pick your Choice! Input an integer!
-        1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not met (ship, captain, crew), the powerup will be null.)
-        2. 4$: Primestart (Automatically gives the player the ship, captain, crew. Allows the player to immediately rolls the two dice and recieve the corresponding gold.)
-        3. 3$: Extra Re-roll (Gives the player 4 rolls instead of 3 rolls)
-        4. Leave ...
+        1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not 
+        met (ship, captain, crew), the powerup will be null.)
+        2. 3$: Extra Re-roll (Gives the player 4 rolls instead of 3 rolls)
+        3. Leave ...
         """)
         CHOICE = input(">")
-        if CHOICE.isnumeric() and CHOICE > 0 and CHOICE < 5:
+        if CHOICE.isnumeric():
             CHOICE = int(CHOICE)
         else:
             print("""Please enter a proper integer!""")
+            return self.askBuy()
+        if CHOICE > 0 and CHOICE < 4:
+            pass
+        else:
+            print("Please input a integer within the given ranges!")
             return self.askBuy()
         # PROCESSING
         if CHOICE == 1:
             if self.__GOLD >= 6:
                 self.__GOLD -= 6
                 self.__JACKPOT = True
+                print("You have bought Jackpot")
             else:
                 print("You do no have enough gold. Go find more gold.")
         elif CHOICE == 2:
-            if self.__GOLD >= 4:
-                self.__GOLD -= 4
-                self.__PRIMESTART = True
-            else:
-                print("You do no have enough gold. Go find more gold.")
-        elif CHOICE == 3:
             if self.__GOLD >= 3:
                 self.__GOLD -= 3
-                self.__ROLLS = 4
+                self.__EXTRAROLLS = True
+                print("You have bought Extra rolls")
             else:
                 print("You do no have enough gold. Go find more gold.")
         else:
             pass
+    def resetRolls(self):
+        """
+        Resets the rolls of the player
+        :return: none
+        """
+        if self.getExtraRolls():
+            self.__ROLLS = 4
+        else:
+            self.__ROLLS = 3
 
     # ACCESSOR method OUTPUTS
     def getNumberRolls(self):
@@ -132,7 +142,6 @@ class Player:
         for i in range(len(self.__UNFOUNDDIE)):
             DISPLAY_HAND.append(self.__UNFOUNDDIE[i].getDiceValue())
         return DISPLAY_HAND
-
     def getGold(self):
         """
         prints the score
@@ -167,17 +176,39 @@ class Player:
         :return: bool
         """
         return self.__PRIMESTART
+    def getExtraRolls(self):
+        """
+        Returns bool extra rolls
+        :return: bool
+        """
+        return self.__EXTRAROLLS
     def getSneakAttack(self):
         """
         returns bool sneak attack
         :return: bool
         """
         return self.__SNEAKATTACK
+    def askKeepGold(self):
+        """
+        Asks the player if they want to keep the gold or reroll it
+        :return: bool
+        """
+        print(f"You currently found {sum(self.getUnfoundDie())} gold pieces! Keep Gold?")
+        CHOICE = input("> (Y/n)")
+        if CHOICE == "Y" or CHOICE == "n" or CHOICE == "y" or CHOICE == "N":
+            if CHOICE == "Y" or CHOICE == "y":
+                return True
+            else:
+                return False
+        else:
+            print("Please enter a valid letter. (Y/N)")
+            return self.askKeepGold()
 
 
 if __name__ == "__main__":
     PLAYER = Player()
-    PLAYER.askBuy()
+    PLAYER.rollDice()
+    print(PLAYER.askKeepGold())
 
 
 
