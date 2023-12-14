@@ -145,8 +145,8 @@ class Game:
             print(f"{self.__Player2.getName()} buys")
             self.__Player2.askBuy()
             self.replay()
-            self.__Player1.resetRolls() # Resets the rolls of player 1
-            self.__Player2.resetRolls() # Resets the rolls of player 2
+            self.__Player1.resetRolls(self.__Player2.getSabotage()) # Resets the rolls of player 1
+            self.__Player2.resetRolls(self.__Player1.getSabotage()) # Resets the rolls of player 2
 
     def replay(self):
         """

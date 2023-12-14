@@ -19,6 +19,7 @@ class Player:
         self.__FOUNDDIE = []
         self.__GOLD = 0
         self.__ROLLS = 3
+        self.__SABOTAGE = False
         self.__EXTRAROLLS = False
         self.__JACKPOT = False
     # MODIFIER method PROCESSING
@@ -86,7 +87,9 @@ class Player:
         1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not 
         met (ship, captain, crew), the powerup will be null.)
         2. 3$: Extra Re-roll (Gives the player 4 rolls instead of 3 rolls)
-        3. Leave ...
+        3. 5$: Sabotage (Give your opponent one less roll)
+        
+        4. Leave ...
         """)
         CHOICE = input(">")
         if CHOICE.isnumeric():
@@ -94,7 +97,7 @@ class Player:
         else:
             print("""Please enter a proper integer!""")
             return self.askBuy()
-        if CHOICE > 0 and CHOICE < 4:
+        if CHOICE > 0 and CHOICE < 6:
             pass
         else:
             print("Please input a integer within the given ranges!")
@@ -114,15 +117,26 @@ class Player:
                 print("You have bought Extra rolls")
             else:
                 print("You do no have enough gold. Go find more gold.")
+        elif CHOICE == 3:
+            if self.__GOLD >= 5:
+                self.__GOLD -= 5
+                self.__SABOTAGE = True
+                print("You have bought Sabotage")
+            else:
+                print("You do no have enough gold. Go find more gold.")
         else:
             pass
-    def resetRolls(self):
+    def resetRolls(self, SABOTAGE):
         """
         Resets the rolls of the player
         :return: none
         """
         if self.getExtraRolls():
             self.__ROLLS = 4
+        else:
+            self.__ROLLS = 3
+        if SABOTAGE:
+            self.__ROLLS = 2
         else:
             self.__ROLLS = 3
 
@@ -188,6 +202,12 @@ class Player:
         :return: bool
         """
         return self.__SNEAKATTACK
+    def getSabotage(self):
+        """
+        Returns bool sabotage
+        :return: bool
+        """
+        return self.__SABOTAGE
     def askKeepGold(self):
         """
         Asks the player if they want to keep the gold or reroll it
