@@ -84,11 +84,9 @@ class Player:
         # INPUT
         print("""There is a tide in the affairs of men, Which taken at the flood, leads on to fortune....
         Welcome to the Power Up Shop! Pick your Choice! Input an integer!
-        1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not 
-        met (ship, captain, crew), the powerup will be null.)
+        1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not met (ship, captain, crew), the powerup will be null.)
         2. 3$: Extra Re-roll (Gives the player 4 rolls instead of 3 rolls)
         3. 5$: Sabotage (Give your opponent one less roll)
-        
         4. Leave ...
         """)
         CHOICE = input(">")
