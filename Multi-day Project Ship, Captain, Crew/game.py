@@ -6,7 +6,7 @@ date-created: 2023-12-03
 
 from player import Player
 from dice import Dice
-import msvcrt
+
 class Game:
 
     # Constructor
