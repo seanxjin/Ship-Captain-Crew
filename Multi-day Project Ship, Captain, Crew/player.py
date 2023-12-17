@@ -22,6 +22,7 @@ class Player:
         self.__SABOTAGE = False
         self.__EXTRAROLLS = False
         self.__JACKPOT = False
+        self.__CONSOLATIONGOLD = False
     # MODIFIER method PROCESSING
     def rollDice(self):
         """
@@ -37,7 +38,6 @@ class Player:
         :return: none
         """
         self.__GOLD = self.__GOLD + GAINS
-
     def checkFoundDie(self):
         """
         Checks first if ship is found, then captain, then crew
@@ -76,6 +76,18 @@ class Player:
                     CONFIGURED_ARRAY.pop(LOCATION)
                 except ValueError:
                     break
+    def resetHand(self):
+        """
+        Resets the hand of the player after the round is over. Appends the found die back into the un-found die array. It also resets all the power-ups that the player has.
+        :return: none
+        """
+        for i in self.__FOUNDDIE:
+            RESET = self.__FOUNDDIE.pop()
+            self.__UNFOUNDDIE.append(RESET)
+        self.__JACKPOT = False
+        self.__SABOTAGE = False
+        self.__EXTRAROLLS = False
+        self.__CONSOLATIONGOLD = False
     def askBuy(self):
         """
         Asks the user if he wants to buy the jackpot powerup
@@ -83,13 +95,16 @@ class Player:
         """
         # INPUT
         print("""There is a tide in the affairs of men, Which taken at the flood, leads on to fortune....
-        Welcome to the Power Up Shop! Pick your Choice! Input an integer!
-        1. 6$: Jackpot (Doubles the amount of the gold at the end of rolls. If the requirements are not met (ship, captain, crew), the powerup will be null.)
-        2. 3$: Extra Re-roll (Gives the player 4 rolls instead of 3 rolls)
-        3. 5$: Sabotage (Give your opponent one less roll)
-        4. Leave ...
+        Welcome to the Power Up Shop! Pick your Choice! Input an integer! ALL POWER-UPs ONLY LAST FOR ONE ROUND!
+        1. 6$ Jackpot: Doubles the amount of the gold at the end of rolls. If the requirements are not met 
+        (ship, captain, crew), the powerup will be null.
+        2. 8$ Extra Re-roll: Gives you 4 rolls instead of 3 rolls, counters Sabotage ability!
+        3. 5$ Sabotage: Give your opponent one less roll!
+        4. 1$ Consolation Gold: If you do not get any gold at the end of the round, receive 4 gold
+        as compensation
+        5.. Leave ...
         """)
-        CHOICE = input(">")
+        CHOICE = input("> ")
         if CHOICE.isnumeric():
             CHOICE = int(CHOICE)
         else:
@@ -109,8 +124,8 @@ class Player:
             else:
                 print("You do no have enough gold. Go find more gold.")
         elif CHOICE == 2:
-            if self.__GOLD >= 3:
-                self.__GOLD -= 3
+            if self.__GOLD >= 8:
+                self.__GOLD -= 8
                 self.__EXTRAROLLS = True
                 print("You have bought Extra rolls")
             else:
@@ -122,21 +137,27 @@ class Player:
                 print("You have bought Sabotage")
             else:
                 print("You do no have enough gold. Go find more gold.")
+        elif CHOICE == 4:
+            if self.__GOLD >= 1:
+                self.__GOLD -= 1
+                self.__CONSOLATIONGOLD = True
+            else:
+                print("You do no have enough gold. Go find more gold.")
         else:
             pass
     def resetRolls(self, SABOTAGE):
         """
-        Resets the rolls of the player
+        Resets the rolls of the player. If the opposing player has the power-up
+        "Sabotage", then the player gets only 2 rolls, if the player
         :return: none
         """
         if self.getExtraRolls():
             self.__ROLLS = 4
-        else:
-            self.__ROLLS = 3
-        if SABOTAGE:
+        elif SABOTAGE:
             self.__ROLLS = 2
         else:
             self.__ROLLS = 3
+
 
     # ACCESSOR method OUTPUTS
     def getNumberRolls(self):
@@ -206,13 +227,19 @@ class Player:
         :return: bool
         """
         return self.__SABOTAGE
+    def getConsolationGold(self):
+        """
+        Returns bool consolation gold
+        :return: bool
+        """
+        return self.__CONSOLATIONGOLD
     def askKeepGold(self):
         """
         Asks the player if they want to keep the gold or reroll it
         :return: bool
         """
         print(f"You currently found {sum(self.getUnfoundDie())} gold pieces! Keep Gold?")
-        CHOICE = input("> (Y/n)")
+        CHOICE = input("> (Y/n) ")
         if CHOICE == "Y" or CHOICE == "n" or CHOICE == "y" or CHOICE == "N":
             if CHOICE == "Y" or CHOICE == "y":
                 return True

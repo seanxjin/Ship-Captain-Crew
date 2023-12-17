@@ -73,6 +73,11 @@ class Game:
                         pass
                     else:
                         print("No gold was found :(")
+                        if self.__Player1.getConsolationGold():
+                            print("CONSOLATION GOLD $4!")
+                            self.__Player1.addGold(4)
+                        else:
+                            pass
                         PLAYER1GO = 0
             print("Press any key to start player 2's turn")
             BUFFER = input("> ") # This just acts as a sort of stop or buffer to increase or improve the user experience
@@ -131,8 +136,13 @@ class Game:
                         pass
                     else:
                         print("No gold was found :(")
+                        if self.__Player2.getConsolationGold():
+                            print("CONSOLATION GOLD $4!")
+                            self.__Player2.addGold(4)
+                        else:
+                            pass
                         PLAYER2GO = 0
-            if self.__Player1.getGold() > self.__Player2.getGold():
+            if sum(self.__Player1.getUnfoundDie()) > sum(self.__Player2.getUnfoundDie()):
                 print(f"{self.__Player1.getName()} wins this round!")
             elif self.__Player1.getGold() == self.__Player2.getGold():
                 print("Its a tie!")
@@ -165,7 +175,8 @@ class Game:
             print("Please input a integer within the given ranges!")
             return self.replay()
         if CHOICE == 1:
-            pass
+            self.__Player1.resetHand()
+            self.__Player2.resetHand()
         else:
             return exit()
 
