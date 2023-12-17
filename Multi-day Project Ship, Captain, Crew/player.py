@@ -84,13 +84,18 @@ class Player:
         for i in self.__FOUNDDIE:
             RESET = self.__FOUNDDIE.pop()
             self.__UNFOUNDDIE.append(RESET)
-        self.__JACKPOT = False
+    def resetPowerUps(self):
+        """
+        Resets the powerups that each player has. This happens after the round ends, and before the shopping phase. Power-up would reset and the player would enter the shopping phase, thus buying a new power-up for the next round.
+        :return: none
+        """
         self.__SABOTAGE = False
         self.__EXTRAROLLS = False
+        self.__JACKPOT = False
         self.__CONSOLATIONGOLD = False
     def askBuy(self):
         """
-        Asks the user if he wants to buy the jackpot powerup
+        Asks the user if they want to buy any powerups.
         :return: none
         """
         # INPUT
@@ -141,6 +146,7 @@ class Player:
             if self.__GOLD >= 1:
                 self.__GOLD -= 1
                 self.__CONSOLATIONGOLD = True
+                print("You have bought consolation gold")
             else:
                 print("You do no have enough gold. Go find more gold.")
         else:

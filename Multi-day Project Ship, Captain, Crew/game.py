@@ -142,12 +142,24 @@ class Game:
                         else:
                             pass
                         PLAYER2GO = 0
-            if sum(self.__Player1.getUnfoundDie()) > sum(self.__Player2.getUnfoundDie()):
+            # Checks the winner of the round
+            if len(self.__Player1.getFoundDie()) == 3 and len(self.__Player2.getFoundDie()) == 3:
+                if sum(self.__Player1.getUnfoundDie()) > sum(self.__Player2.getUnfoundDie()):
+                    print(f"{self.__Player1.getName()} wins this round!")
+                elif self.__Player1.getGold() == self.__Player2.getGold():
+                    print("Its a tie!")
+                else:
+                    print(f"{self.__Player2.getName()} wins this round!")
+            elif len(self.__Player1.getFoundDie()) == 3 and len(self.__Player2.getFoundDie()) != 3:
                 print(f"{self.__Player1.getName()} wins this round!")
-            elif self.__Player1.getGold() == self.__Player2.getGold():
-                print("Its a tie!")
+            elif len(self.__Player1.getFoundDie()) != 3 and len(self.__Player2.getFoundDie()) != 3:
+                print("Nobody got anything :(")
             else:
                 print(f"{self.__Player2.getName()} wins this round!")
+            # Resets powerups
+            self.__Player1.resetPowerUps()
+            self.__Player2.resetPowerUps()
+            # Shop phase
             BUFFER = input("> ")
             print("Welcome to the powerup shop, where all sorts of advantages can be bought with gold!")
             print(f"{self.__Player1.getName()} buys")
