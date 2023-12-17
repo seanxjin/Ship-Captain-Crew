@@ -81,7 +81,7 @@ class Player:
         Resets the hand of the player after the round is over. Appends the found die back into the un-found die array. It also resets all the power-ups that the player has.
         :return: none
         """
-        for i in self.__FOUNDDIE:
+        for i in range(len(self.__FOUNDDIE)):
             RESET = self.__FOUNDDIE.pop()
             self.__UNFOUNDDIE.append(RESET)
     def resetPowerUps(self):
@@ -209,24 +209,12 @@ class Player:
         :return: bool
         """
         return self.__JACKPOT
-    def getPrimeStart(self):
-        """
-        returns bool prime start
-        :return: bool
-        """
-        return self.__PRIMESTART
     def getExtraRolls(self):
         """
         Returns bool extra rolls
         :return: bool
         """
         return self.__EXTRAROLLS
-    def getSneakAttack(self):
-        """
-        returns bool sneak attack
-        :return: bool
-        """
-        return self.__SNEAKATTACK
     def getSabotage(self):
         """
         Returns bool sabotage
