@@ -19,4 +19,4 @@ These are the following power-ups for the game:
 2. 3$ Extra Re-roll: Gives the player 4 rolls instead of 3 rolls 🍀
 3. 5$ Sabotage: Give your opponent one less roll 😈
 
-## Reflection
+## Reflection.
