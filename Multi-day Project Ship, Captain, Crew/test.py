@@ -1,2 +1,5 @@
-x = [1,2,3,4]
-print(sum(x)*2)
+UNFOUNDDIE = [0,1]
+FOUNDDIE = [1,2,3]
+
+for DIE in FOUNDDIE:
+    UNFOUNDDIE.append(FOUNDDIE.pop(DIE))

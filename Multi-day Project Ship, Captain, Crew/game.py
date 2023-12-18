@@ -73,6 +73,11 @@ class Game:
                         pass
                     else:
                         print("No gold was found :(")
+                        if self.__Player1.getConsolationGold():
+                            print("CONSOLATION GOLD $4!")
+                            self.__Player1.addGold(4)
+                        else:
+                            pass
                         PLAYER1GO = 0
             print("Press any key to start player 2's turn")
             BUFFER = input("> ") # This just acts as a sort of stop or buffer to increase or improve the user experience
@@ -131,13 +136,30 @@ class Game:
                         pass
                     else:
                         print("No gold was found :(")
+                        if self.__Player2.getConsolationGold():
+                            print("CONSOLATION GOLD $4!")
+                            self.__Player2.addGold(4)
+                        else:
+                            pass
                         PLAYER2GO = 0
-            if self.__Player1.getGold() > self.__Player2.getGold():
+            # Checks the winner of the round
+            if len(self.__Player1.getFoundDie()) == 3 and len(self.__Player2.getFoundDie()) == 3:
+                if sum(self.__Player1.getUnfoundDie()) > sum(self.__Player2.getUnfoundDie()):
+                    print(f"{self.__Player1.getName()} wins this round!")
+                elif self.__Player1.getGold() == self.__Player2.getGold():
+                    print("Its a tie!")
+                else:
+                    print(f"{self.__Player2.getName()} wins this round!")
+            elif len(self.__Player1.getFoundDie()) == 3 and len(self.__Player2.getFoundDie()) != 3:
                 print(f"{self.__Player1.getName()} wins this round!")
-            elif self.__Player1.getGold() == self.__Player2.getGold():
-                print("Its a tie!")
+            elif len(self.__Player1.getFoundDie()) != 3 and len(self.__Player2.getFoundDie()) != 3:
+                print("Nobody got anything :(")
             else:
                 print(f"{self.__Player2.getName()} wins this round!")
+            # Resets powerups
+            self.__Player1.resetPowerUps()
+            self.__Player2.resetPowerUps()
+            # Shop phase
             BUFFER = input("> ")
             print("Welcome to the powerup shop, where all sorts of advantages can be bought with gold!")
             print(f"{self.__Player1.getName()} buys")
@@ -165,7 +187,8 @@ class Game:
             print("Please input a integer within the given ranges!")
             return self.replay()
         if CHOICE == 1:
-            pass
+            self.__Player1.resetHand()
+            self.__Player2.resetHand()
         else:
             return exit()
 
